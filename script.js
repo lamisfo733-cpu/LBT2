@@ -307,6 +307,24 @@ function renderChallenges(stage, stageProgress) {
         }
         
         challengeDiv.innerHTML = challengeHTML;
+        // في renderChallenges، بعد السطر:
+// challengeDiv.innerHTML = challengeHTML;
+
+// أضف:
+if (challenge.type === 'code' || challenge.type === 'game' || 
+    challenge.type === 'lab' || challenge.type === 'design' || 
+    challenge.type === 'simulation') {
+    
+    // إزالة زر إرسال الإجابة العادي
+    challengeDiv.querySelector('.submit-answer')?.remove();
+    
+    // استدعاء دالة العرض التفاعلي
+    setTimeout(() => {
+        import('./specialGames.js').then(module => {
+            module.renderInteractiveChallenge(challenge, index, challengeDiv);
+        });
+    }, 100);
+}
         container.appendChild(challengeDiv);
     });
     
